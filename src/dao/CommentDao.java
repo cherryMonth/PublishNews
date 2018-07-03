@@ -9,5 +9,4 @@ public class CommentDao extends Dao {
     public CommentDao() {
         super(table, class_type);
     }
-
 }

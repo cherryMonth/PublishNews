@@ -2,6 +2,7 @@ package dao;
 
 import model.User;
 import java.util.Iterator;
+import java.util.List;
 
 public class UserDao extends Dao {
 
@@ -15,6 +16,12 @@ public class UserDao extends Dao {
 
     public static void main(String [] args) throws Exception {
         UserDao dao = new UserDao();
+
+        List<Object> list = dao.paginate(1, 10);
+        for(Object o: list){
+            User u = (User)o;
+            System.out.println(u.getUsername());
+        }
 
         User user = new User();  // 创建模型对象 主键不需要设置　由ORM维护
         user.setSex("w");

@@ -124,6 +124,13 @@ public class DataBaseConnect {
         return rs;
     }
 
+    public List<Object> paginate(String table, int start, int rows, String model_class){
+
+        String sql = String.format("select limit %d %d * from %s", start, rows, table);
+        return this.query_filter(sql, model_class);
+
+    }
+
     public int delete(String table, Object object) {
         int id = (int) getFieldValueByName(primary_key, object);
 

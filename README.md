@@ -118,6 +118,18 @@ public class UserDao extends Dao {
                     User u = (User)iter.next();
                     System.out.println(u.getUsername());
                 }
+                
+       // 支持分页查询
+       /*
+        * 第一个参数为开始的行数　第二个为查询的个数
+        */
+       
+       List<Object> list = dao.paginate(1, 10);
+               for(Object o: list){
+                   User u = (User)o;
+                   System.out.println(u.getUsername());
+               }
+                
     }
 }
 ```

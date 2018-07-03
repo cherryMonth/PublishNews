@@ -28,6 +28,20 @@ public class Result {
         return iter.hasNext() ? iter.next() : null;
     }
 
+    public List<Object> paginate(int start, int rows) {
+
+        /*
+         *  利用ORM实现简单的分页
+         *
+         *  start 开始行数
+         *
+         *  rows 为显示的行数
+         *
+         * */
+
+        return db.paginate(this.table, start, rows, this.class_type);
+    }
+
     public Result filter(String column, String filter) {
 
         if (this.table.isEmpty()) {
