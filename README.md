@@ -113,7 +113,7 @@ public class UserDao extends Dao {
         
         
        //找到所有id大于-1的对象并输出用户名
-        Iterator iter = dao.filter("id", ">1").all();
+        Iterator iter = dao.filter("id", ">-1").all();
                 while (iter.hasNext()){
                     User u = (User)iter.next();
                     System.out.println(u.getUsername());
@@ -127,7 +127,7 @@ public class UserDao extends Dao {
 insert into user ("USERNAME","SEX","USER_IDENTITY") values (?,?,?)
 sj
 sj
-
+sj
 ```
  
 # 数据库表
