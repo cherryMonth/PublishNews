@@ -25,7 +25,7 @@ public class Result {
 
     public Object first() {
         Iterator<Object> iter = this.result.iterator();
-        return iter.next();
+        return iter.hasNext() ? iter.next() : null;
     }
 
     public Result filter(String column, String filter) {
