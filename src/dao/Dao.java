@@ -1,6 +1,5 @@
 package dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Dao {
@@ -47,6 +46,6 @@ public abstract class Dao {
             }
         }
         String sql = String.format("select * from %s where %s %s", this.table, column, filter);
-        return new Result(db.query_filter(sql, this.class_type), this.table, this.class_type);
+        return new Result(db.query_filter(sql, this.class_type), this.class_type, sql);
     }
 }
