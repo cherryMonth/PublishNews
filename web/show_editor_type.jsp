@@ -22,8 +22,7 @@
 <a href="/showNewsType.action">显示新闻分类</a>
 <a href="/show_editor_type.action">修改编辑者类型</a>
 <a href="/create_news_action">创建新闻</a>
-<a href="#">删除新闻</a>
-<a href="#">编辑新闻</a>
+<a href="/show_news_list">查看新闻</a>
 <a href="#">修改用户信息</a>
 
 <table>

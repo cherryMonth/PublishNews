@@ -6,7 +6,7 @@ import dao.NewsDao;
 import model.News;
 import model.User;
 
-public class EditNews extends ActionSupport {
+public class SaveNews extends ActionSupport {
 
     private News news;
 
@@ -23,13 +23,9 @@ public class EditNews extends ActionSupport {
         if (user == null) {
             return LOGIN;
         }
-
         news.setPublisher(user.getId());
         NewsDao dao = new NewsDao();
         dao.add(news);
-
-
-
         return SUCCESS;
     }
 

@@ -42,7 +42,7 @@ public class CreateNews extends ActionSupport {
             TypeDao t = new TypeDao();
             e = t.filter("id", ">-1").all();
             while (e.hasNext()) {
-                Type t2 = (Type)e.next();
+                Type t2 = (Type) e.next();
                 this.type_list.add(t2);
             }
         }

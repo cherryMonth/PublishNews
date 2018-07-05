@@ -63,7 +63,11 @@ public class DataBaseConnect {
                 continue;
             if (getFieldValueByName(field.getName(), object) == null)
                 continue;
-            sql.append(String.format("\"%s\",", field.getName().toUpperCase()));
+            String name = field.getName().toUpperCase();
+            if(table.toUpperCase().equals("NEWS") && name.equals("TYPE"))
+            sql.append(String.format("\"NEWS_%s\",", name));
+            else
+                sql.append(String.format("\"%s\",", name));
             values.append("?,");
             list.add(getFieldValueByName(field.getName(), object));
         }
@@ -181,6 +185,10 @@ public class DataBaseConnect {
                         String firstLetter = field.getName().substring(0, 1).toUpperCase();
                         String setter = "set" + firstLetter + field.getName().substring(1);
                         Method method = object.getClass().getDeclaredMethod(setter, field.getType());
+                        String name = field.getName().toUpperCase();
+                        if(sql.contains("news") && name.equals("TYPE"))
+                            sql += String.format("\"NEWS_%s\",", name);
+                        else
                         method.invoke(object, rs.getObject(field.getName()));
                     }
                     list.add(object);
@@ -189,6 +197,7 @@ public class DataBaseConnect {
                 e.printStackTrace();
             }
         } catch (SQLException e) {
+            e.printStackTrace();
             System.out.println("查询出现异常");
         }
         return list;

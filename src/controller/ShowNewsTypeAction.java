@@ -1,6 +1,5 @@
 package controller;
 
-import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import model.Type;
 import dao.TypeDao;

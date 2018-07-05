@@ -57,6 +57,13 @@
             <result name="success">/create_news.jsp</result>
             <result name="error">/admin_index.jsp</result>
         </action>
+        <action name="save_news_action" class="controller.SaveNews">
+            <result name="success">/create_news.jsp</result>
+            <result name="error">/admin_index.jsp</result>
+        </action>
+        <action name="show_news_list" class="controller.ShowNewsByType">
+            <result name="success">/show_news_list.jsp</result>
+        </action>
     </package>
     <!--<include file="interceptor/interceptor.xml"></include>-->
 </struts>
