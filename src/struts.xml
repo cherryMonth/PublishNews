@@ -1,8 +1,62 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<!DOCTYPE struts PUBLIC
-        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
-        "http://struts.apache.org/dtds/struts-2.0.dtd">
-
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
 <struts>
+    <package name="user_login" extends="struts-default" namespace="/">
+        <interceptors>
+            <interceptor name="assignLogin" class="interceptor.UserLoginInterceptor"/>
+            <interceptor-stack name="assignParamsStack">
+                <interceptor-ref name="params"/>
+                <interceptor-ref name="assignLogin"/>
+                <interceptor-ref name="defaultStack"/>
+            </interceptor-stack>
+        </interceptors>
+
+        <default-interceptor-ref name="assignParamsStack"/>
+
+        <action name="login" class="controller.UserLoginAction">
+            <result type="redirect" name="admin">/admin_index.jsp</result>
+            <result type="redirect" name="editor">/editor_index.jsp</result>
+            <result type="redirect" name="user">/user_index.jsp</result>
+            <result name="login">/login.jsp</result>
+            <result name="input">/login.jsp</result>
+        </action>
+        <action name="register" class="controller.RegisterAction">
+            <result type="redirect" name="success">/index.jsp</result>
+            <result name="input">/register.jsp</result>
+        </action>
+        <action name="showNewsType" class="controller.ShowNewsTypeAction">
+            <result name="success">/show_news_type.jsp</result>
+            <result name="login">/login.jsp</result>
+        </action>
+        <action name="addNewsType" class="controller.AddNewsTypeAction">
+            <result name="input">/show_news_type.jsp</result>
+            <result name="success" type="chain">
+                <param name="actionName">showNewsType</param>
+            </result>
+            <result name="login">/login.jsp</result>
+        </action>
+        <action name="del_news_type_action" class="controller.DelNewsType">
+            <result name="input">/show_news_type.jsp</result>
+            <result name="login">/login.jsp</result>
+            <result name="success" type="chain">
+                <param name="actionName">showNewsType</param>
+            </result>
+        </action>
+        <action name="edit_news_type_action" class="controller.EditNewsType">
+            <result name="success">/show_news_type.jsp</result>
+        </action>
+        <action name="show_editor_type" class="controller.ShowEditorType">
+            <result name="success">/show_editor_type.jsp</result>
+            <result name="login">/login.jsp</result>
+        </action>
+        <action name="edit_editor_type_action" class="controller.EditEditorType">
+            <result name="success">/show_editor_type.jsp</result>
+        </action>
+        <action name="create_news_action" class="controller.CreateNews">
+            <result name="success">/create_news.jsp</result>
+            <result name="error">/admin_index.jsp</result>
+        </action>
+    </package>
+    <!--<include file="interceptor/interceptor.xml"></include>-->
 </struts>

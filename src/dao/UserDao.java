@@ -7,7 +7,7 @@ public class UserDao extends Dao {
 
     protected static String table = "user";  // 数据库表名
 
-    protected static String class_type = User.class.getName(); // 数据模型的class
+    protected static Class class_type = User.class; // 数据模型的class
 
     public UserDao(){
         super(table, class_type);

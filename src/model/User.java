@@ -6,6 +6,16 @@ public class User {
     private String sex;
     private String user_identity;
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    private String password;
+
     public void setId(int id) {
         this.id = id;
     }

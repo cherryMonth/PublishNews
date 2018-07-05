@@ -1,4 +1,5 @@
-<%--
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ page import="model.User" %><%--
   Created by IntelliJ IDEA.
   User: miku
   Date: 7/2/18
@@ -8,9 +9,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
   <head>
-    <title>$Title$</title>
+    <title>首页</title>
   </head>
+  <s:debug/>
   <body>
-  $END$
+  <%
+    User user = (User)request.getSession().getAttribute("user");
+    out.println(user.getUsername());
+    out.println(user.getId());
+    out.println(user.getPassword());
+  %>
   </body>
 </html>

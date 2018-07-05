@@ -160,6 +160,7 @@ sj
    primary key (ID),
    USERNAME varchar(20) unique not null ,
    SEX varchar(20) not null ,
+   Password varchar(20) default '123456' not null,
    USER_IDENTITY varchar(20) not null,
    check (sex in ('m' , 'w'))
  );

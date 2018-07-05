@@ -7,24 +7,24 @@ import java.util.List;
 public class Result {
 
     private List<Object> result = null;
-    private String class_type;
+    private Class class_type;
     private String sql;
 
     private static DataBaseConnect db = new DataBaseConnect();
 
-    public Result(List<Object> result, String class_type, String sql) {
+    public Result(List<Object> result, Class class_type, String sql) {
         this.result = result;
         this.class_type = class_type;
         this.sql = sql;
     }
 
-    public Iterator<Object> all() {
-        return this.result.iterator();
+    public Iterator all() {
+        return result.iterator();
     }
 
     public Object first() {
         Iterator<Object> iter = this.result.iterator();
-        return iter.hasNext() ? iter.next() : null;
+        return this.class_type.cast(iter.hasNext() ? iter.next() : null);
     }
 
     public Result filter(String column, String filter) {
@@ -38,7 +38,7 @@ public class Result {
         }
 
         String sql = String.format(this.sql + " and %s  %s ", column, filter);
-        return new Result(db.query_filter(sql, this.class_type), this.class_type, this.sql);
+        return new Result(db.query_filter(sql, this.class_type.getName()), this.class_type, this.sql);
     }
 
 

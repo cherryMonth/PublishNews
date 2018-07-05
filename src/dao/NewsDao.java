@@ -5,7 +5,7 @@ import model.News;
 public class NewsDao extends Dao {
 
     protected static String table = "news";
-    protected static String class_type = News.class.getName();
+    protected static Class class_type = News.class;
 
     public NewsDao(){
         super(table, class_type);

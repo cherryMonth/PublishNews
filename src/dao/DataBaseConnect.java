@@ -51,11 +51,7 @@ public class DataBaseConnect {
         int id = (int) getFieldValueByName(primary_key, object);
 
         if(id != -1){
-            try {
-                return this.update(table, object);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            return this.update(table, object);
         }
 
         Field[] fields = object.getClass().getDeclaredFields();
@@ -84,12 +80,12 @@ public class DataBaseConnect {
             }
             rs = pstmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("添加出现异常");
         }
         return rs;
     }
 
-    public int update(String table, Object object) throws SQLException {
+    public int update(String table, Object object){
 
         int id = (int) getFieldValueByName(primary_key, object);
 
@@ -120,6 +116,8 @@ public class DataBaseConnect {
             }
             pstmt.setInt(list.size() + 1, id);
             rs = pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("更新出现异常");
         }
         return rs;
     }
@@ -142,14 +140,24 @@ public class DataBaseConnect {
 
         String sql = String.format("delete from %s where %s = ?", table, primary_key);
 
-        List<Object> list = new ArrayList<>();
-
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setObject(1, id);
-            pstmt.setInt(list.size() + 1, id);
             rs = pstmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("删除出现异常");
+        }
+
+        return rs;
+    }
+
+    public int delete(String table, String column, String filter) {
+
+        String sql = String.format("delete from %s where %s %s ", table, column, filter);
+        int rs = 0;
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            rs = pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("删除出现异常");
         }
 
         return rs;
@@ -181,7 +189,7 @@ public class DataBaseConnect {
                 e.printStackTrace();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("查询出现异常");
         }
         return list;
     }
