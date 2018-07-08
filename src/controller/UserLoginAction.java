@@ -44,14 +44,7 @@ public class UserLoginAction extends ActionSupport {
         else
         {
             ActionContext.getContext().getSession().put("user", temp);
-            switch (temp.getUser_identity()) {
-                case "editor":
-                    return "editor";
-                case "administrator":
-                    return "admin";
-                default:
-                    return "user";
-            }
+            return SUCCESS;
         }
 
     }

@@ -12,8 +12,8 @@ public class Browser {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = Integer.parseInt(id);
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getInfo() {
@@ -24,14 +24,23 @@ public class Browser {
         this.info = info;
     }
 
+    private int browser;
+
+    public int getBrowser() {
+        return browser;
+    }
+
+    public void setBrowser(int browser) {
+        this.browser = browser;
+    }
+
     public Date  getDatetime() {
         return datetime;
     }
 
-    public void setDatetime(String datetime) throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        this.datetime = dateFormat.parse(datetime);
-    }
-
     private Date datetime;
+
+    public void setDatetime(Date datetime) {
+        this.datetime = datetime;
+    }
 }

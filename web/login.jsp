@@ -9,7 +9,6 @@
 </head>
 <body>  <!-- 尝试用struts2的标签代替HtML中的元素 -->
 
-<s:debug/>
 <s:actionerror />
 <s:i18n name="messageResource_zh_CN">
     <s:form action="/login">

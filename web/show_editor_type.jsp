@@ -19,12 +19,40 @@
 <body>
 <s:actionerror/>
 <s:actionmessage/>
-<a href="/showNewsType.action">显示新闻分类</a>
-<a href="/show_editor_type.action">修改编辑者类型</a>
-<a href="/create_news_action">创建新闻</a>
-<a href="/show_news_list">查看新闻</a>
-<a href="#">修改用户信息</a>
-
+<s:actionerror/>
+<s:actionmessage/>
+<s:if test="#session.user != null">
+    <s:if test='#session.user.user_identity.equals("administrator")'>
+        <a href="/showNewsType.action">显示新闻分类</a>
+        <a href="/show_editor_type.action">修改编辑者类型</a>
+        <a href="/create_news_action">创建新闻</a>
+        <a href="/show_news_list">查看新闻</a>
+        <a href="register.jsp">修改用户信息</a>
+        <a href="/show_history.action">查看历史记录</a>
+        <a href="/show_collect_news_action">查看收藏新闻</a>
+        <a href="/logout.action">注销</a>
+    </s:if>
+    <s:elseif test='#session.user.user_identity.equals("editor")'>
+        <a href="/create_news_action">创建新闻</a>
+        <a href="/show_news_list">查看新闻</a>
+        <a href="register.jsp">修改用户信息</a>
+        <a href="/show_history.action">查看历史记录</a>
+        <a href="/show_collect_news_action">查看收藏新闻</a>
+        <a href="/logout.action">注销</a>
+    </s:elseif>
+    <s:elseif test='#session.user.user_identity.equals("user")'>
+        <a href="/show_news_list">查看新闻</a>
+        <a href="register.jsp">修改用户信息</a>
+        <a href="/show_history.action">查看历史记录</a>
+        <a href="/show_collect_news_action">查看收藏新闻</a>
+        <a href="/logout.action">注销</a>
+    </s:elseif>
+    <s:else>
+    </s:else>
+</s:if>
+<s:else>
+    <a href="/login.jsp">返回登录页面</a>
+</s:else>
 <table>
     <tr>
         <th>编辑者ID</th>
@@ -69,8 +97,15 @@
         Iterator temp = type_list.all();
         while(temp.hasNext()){
             Type type = (Type) temp.next();
+            String ischeck = "";
+            for (int i = 0; i < editor_type.get(index).size(); i++) {
+                if(editor_type.get(index).get(i).equals(type.getType())){
+                    ischeck = "checked=checked";
+                    break;
+                }
+            }
             %>
-            <input type="checkbox" name="type_list<%=u.getId()%>" value="<%=type.getType()%>"><%=type.getType()%>
+            <input type="checkbox" name="type_list<%=u.getId()%>" <%=ischeck%> value="<%=type.getType()%>"><%=type.getType()%>
             <%
         }
         %></td>
@@ -107,6 +142,7 @@
                 if (ajax.status == 200) {
                     var result = JSON.parse(ajax.responseText);
                     if (result['status'] === 200) {
+                        alert("更新成功!");
                         fnSucceed.href = result['url'];
                     }
                     else {

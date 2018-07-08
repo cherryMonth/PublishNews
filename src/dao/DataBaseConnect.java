@@ -1,5 +1,6 @@
 package dao;
 
+import model.News;
 import model.User;
 
 import java.lang.reflect.Field;
@@ -64,10 +65,9 @@ public class DataBaseConnect {
             if (getFieldValueByName(field.getName(), object) == null)
                 continue;
             String name = field.getName().toUpperCase();
-            if(table.toUpperCase().equals("NEWS") && name.equals("TYPE"))
-            sql.append(String.format("\"NEWS_%s\",", name));
-            else
-                sql.append(String.format("\"%s\",", name));
+            if(name.equals("TYPE") && table.equals("news"))
+                name = "NEWS_TYPE";
+            sql.append(String.format("\"%s\",", name));
             values.append("?,");
             list.add(getFieldValueByName(field.getName(), object));
         }
@@ -84,6 +84,7 @@ public class DataBaseConnect {
             }
             rs = pstmt.executeUpdate();
         } catch (SQLException e) {
+            e.printStackTrace();
             System.out.println("添加出现异常");
         }
         return rs;
@@ -107,7 +108,10 @@ public class DataBaseConnect {
                 continue;
             if (getFieldValueByName(field.getName(), object) == null)
                 continue;
-            sql.append(String.format(" \"%s\" = ?,", field.getName().toUpperCase()));
+            String name = field.getName().toUpperCase();
+            if(name.equals("TYPE") && table.equals("news"))
+                name = "NEWS_TYPE";
+            sql.append(String.format(" \"%s\" = ?,", name));
             list.add(getFieldValueByName(field.getName(), object));
         }
         String temp = String.format(" where %s = ?", primary_key);
@@ -115,12 +119,14 @@ public class DataBaseConnect {
         System.out.println(sql);
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
-            for (Object o : list) {
-                pstmt.setObject(list.indexOf(o) + 1, o);
+            for (int i = 0; i < list.size(); i++) {
+                System.out.println( list.get(i));
+                pstmt.setObject(i + 1, list.get(i));
             }
             pstmt.setInt(list.size() + 1, id);
             rs = pstmt.executeUpdate();
         } catch (SQLException e) {
+            e.printStackTrace();
             System.out.println("更新出现异常");
         }
         return rs;
@@ -129,6 +135,12 @@ public class DataBaseConnect {
     public List<Object> paginate(String table, int start, int rows, String model_class){
 
         String sql = String.format("select limit %d %d * from %s", start, rows, table);
+        return this.query_filter(sql, model_class);
+
+    }
+
+    public List<Object> paginate(String table, int start, int rows, String column, String _sql, String model_class){
+        String sql = String.format("select limit %d %d * from %s where %s %s", start, rows, table, column, _sql);
         return this.query_filter(sql, model_class);
 
     }
@@ -143,7 +155,6 @@ public class DataBaseConnect {
         int rs = 0;
 
         String sql = String.format("delete from %s where %s = ?", table, primary_key);
-
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setObject(1, id);
             rs = pstmt.executeUpdate();
@@ -174,10 +185,19 @@ public class DataBaseConnect {
          *  根据类名动态创建对象
          *
          * */
-
         List<Object> list = new ArrayList<>();
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             try (ResultSet rs = pstmt.executeQuery()) {
+
+//                ResultSetMetaData rsmd = rs.getMetaData();
+//                int colum = rsmd.getColumnCount();
+//
+//                for(int i =1;i<=colum;i++) {
+//                    String name = rsmd.getColumnName(i);
+//                    System.out.println(name);
+//                }    // 打印列名
+
+
                 while (rs.next()) {
                     Class _class = Class.forName(model_class);
                     Object object = _class.newInstance();
@@ -185,11 +205,10 @@ public class DataBaseConnect {
                         String firstLetter = field.getName().substring(0, 1).toUpperCase();
                         String setter = "set" + firstLetter + field.getName().substring(1);
                         Method method = object.getClass().getDeclaredMethod(setter, field.getType());
-                        String name = field.getName().toUpperCase();
-                        if(sql.contains("news") && name.equals("TYPE"))
-                            sql += String.format("\"NEWS_%s\",", name);
-                        else
-                        method.invoke(object, rs.getObject(field.getName()));
+                        String field_name = field.getName();
+                        if(sql.contains("news") && field_name.toUpperCase().equals("TYPE"))
+                            field_name = "NEWS_TYPE";
+                        method.invoke(object, rs.getObject(field_name));
                     }
                     list.add(object);
                 }
@@ -205,18 +224,14 @@ public class DataBaseConnect {
 
     public static void main(String[] args) throws Exception {
         DataBaseConnect d = new DataBaseConnect();
-        User user = new User();
-        user.setSex("w");
-        user.setId(9);
-        user.setUser_identity("editor");
-        user.setUsername("宋建");
+        News news = new News();
+        d.query_filter("select * from news where id >-1", News.class.getName());
 //        Method m = user.getClass().getMethod("setId", int.class);
 //       // d.add("user", user);
 //        m.invoke(user, 1231123133);
 //        System.out.println(user.getId());
         String sql = "select * from user where id > 1";
 //        d.update("user", user);
-        d.delete("user",user);
 //        List<Object> list = d.query_filter(sql, "model.User");
 //        for (Object o : list) {
 //            System.out.println(o.toString());

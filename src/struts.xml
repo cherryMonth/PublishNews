@@ -15,22 +15,23 @@
         <default-interceptor-ref name="assignParamsStack"/>
 
         <action name="login" class="controller.UserLoginAction">
-            <result type="redirect" name="admin">/admin_index.jsp</result>
-            <result type="redirect" name="editor">/editor_index.jsp</result>
-            <result type="redirect" name="user">/user_index.jsp</result>
+            <result type="redirect" name="success">index.jsp</result>
             <result name="login">/login.jsp</result>
             <result name="input">/login.jsp</result>
         </action>
         <action name="register" class="controller.RegisterAction">
             <result type="redirect" name="success">/index.jsp</result>
             <result name="input">/register.jsp</result>
+            <result name="login">/login.jsp</result>
         </action>
         <action name="showNewsType" class="controller.ShowNewsTypeAction">
             <result name="success">/show_news_type.jsp</result>
             <result name="login">/login.jsp</result>
         </action>
         <action name="addNewsType" class="controller.AddNewsTypeAction">
-            <result name="input">/show_news_type.jsp</result>
+            <result name="input" type="chain">
+                <param name="actionName">showNewsType</param>
+            </result>
             <result name="success" type="chain">
                 <param name="actionName">showNewsType</param>
             </result>
@@ -45,6 +46,7 @@
         </action>
         <action name="edit_news_type_action" class="controller.EditNewsType">
             <result name="success">/show_news_type.jsp</result>
+            <result name="login">/login.jsp</result>
         </action>
         <action name="show_editor_type" class="controller.ShowEditorType">
             <result name="success">/show_editor_type.jsp</result>
@@ -52,17 +54,71 @@
         </action>
         <action name="edit_editor_type_action" class="controller.EditEditorType">
             <result name="success">/show_editor_type.jsp</result>
+            <result name="login">/login.jsp</result>
         </action>
         <action name="create_news_action" class="controller.CreateNews">
             <result name="success">/create_news.jsp</result>
-            <result name="error">/admin_index.jsp</result>
+            <result name="error">/index.jsp</result>
+            <result name="login">/login.jsp</result>
         </action>
         <action name="save_news_action" class="controller.SaveNews">
-            <result name="success">/create_news.jsp</result>
-            <result name="error">/admin_index.jsp</result>
+            <result name="success" type="chain">
+                <param name="actionName">show_news_list</param>
+            </result>
+            <result name="login">/login.jsp</result>
+            <result name="error">/index.jsp</result>
         </action>
         <action name="show_news_list" class="controller.ShowNewsByType">
+            <result name="login">/login.jsp</result>
             <result name="success">/show_news_list.jsp</result>
+        </action>
+        <action name="show_single_news" class="controller.ShowNewsSingle">
+            <result name="success">/show_single_news.jsp</result>
+            <result name="error">/index.jsp</result>
+            <result name="login">/login.jsp</result>
+        </action>
+        <action name="edit_news_action" class="controller.EditNews">
+            <result name="success">/create_news.jsp</result>
+            <result name="error">/index.jsp</result>
+            <result name="login">/login.jsp</result>
+        </action>
+        <action name="delete_news_action" class="controller.DeleteNews">
+            <result name="success" type="chain">
+                <param name="actionName">show_news_list</param>
+            </result>
+            <result name="error">/index.jsp</result>
+            <result name="login">/login.jsp</result>
+        </action>
+        <action name="logout" class="controller.LogoutAction">
+            <result name="success">/login.jsp</result>
+            <result name="error">/index.jsp</result>
+            <result name="login">/login.jsp</result>
+        </action>
+        <action name="show_history" class="controller.ShowHistory">
+            <result name="success">/show_history.jsp</result>
+            <result name="login">/login.jsp</result>
+        </action>
+        <action name="delete_history" class="controller.DeleteHistory">
+            <result name="success" type="chain">
+                <param name="actionName">show_history</param>
+            </result>
+            <result name="login">/login.jsp</result>
+        </action>
+        <action name="collect_news_action" class="controller.CollectAction">
+            <result name="success" type="chain">
+                <param name="actionName">show_news_list</param>
+            </result>
+            <result name="login">/login.jsp</result>
+        </action>
+        <action name="delete_collect_news_action" class="controller.DeleteCollect">
+            <result name="success" type="chain">
+                <param name="actionName">show_news_list</param>
+            </result>
+            <result name="login">/login.jsp</result>
+        </action>
+        <action name="show_collect_news_action" class="controller.ShowCollect">
+            <result name="success">/show_collect_news.jsp</result>
+            <result name="login">/login.jsp</result>
         </action>
     </package>
     <!--<include file="interceptor/interceptor.xml"></include>-->

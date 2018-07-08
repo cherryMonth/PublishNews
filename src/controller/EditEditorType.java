@@ -45,14 +45,15 @@ public class EditEditorType extends ActionSupport {
         TypeDao dao = new TypeDao();
         EditorTypeDao editorTypeDao = new EditorTypeDao();
         editorTypeDao.delete("publisher", String.format("=%d", this.user_id));
-        for(String string:typelist){
-            EditorType editorType = new EditorType();
-            int id = ((Type)dao.filter("type", "='" + string + "'").first()).getId();
-            editorType.setType(id);
-            editorType.setPublisher(user_id);
-            editorTypeDao.add(editorType);
+        if(typelist != null) {
+            for (String string : typelist) {
+                EditorType editorType = new EditorType();
+                int id = ((Type) dao.filter("type", "='" + string + "'").first()).getId();
+                editorType.setType(id);
+                editorType.setPublisher(user_id);
+                editorTypeDao.add(editorType);
+            }
         }
-
         ServletActionContext.getResponse().setContentType("text/html;charset=utf-8");
         PrintWriter out = ServletActionContext.getResponse().getWriter();
         String json = String.format("{\"status\": %d, \"info\": \"%s\", \"url\": \"%s\"}", status, info, url);

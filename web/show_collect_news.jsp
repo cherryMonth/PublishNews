@@ -1,21 +1,21 @@
 <%@ page import="com.opensymphony.xwork2.util.ValueStack" %>
-<%@ taglib prefix="s" uri="/struts-tags" %>
-<%@ page import="model.Type" %>
 <%@ page import="java.util.List" %>
-<%@ page import="model.News" %>
-<%--
+<%@ page import="model.Collect" %><%--
   Created by IntelliJ IDEA.
   User: miku
-  Date: 7/5/18
-  Time: 3:55 PM
+  Date: 7/8/18
+  Time: 7:43 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="s" uri="/struts-tags" %>
 <html>
 <head>
-    <title>创建新闻</title>
+    <title>显示收藏新闻</title>
 </head>
 <body>
+<s:actionerror/>
+<s:actionmessage/>
 <s:actionerror/>
 <s:actionmessage/>
 <s:if test="#session.user != null">
@@ -50,51 +50,30 @@
 <s:else>
     <a href="/login.jsp">返回登录页面</a>
 </s:else>
-<s:form action="save_news_action">
-    <%
-        ValueStack vs = (ValueStack) request.getAttribute("struts.valueStack");  // 获取上一个页面转发的值
-        List<Type> type_list = (List<Type>) vs.findValue("type_list");
-        News n = (News) vs.findValue("news");
-        if (n == null) {
-    %>
-    <input type="hidden" name="news.id" value="-1"/>
-    <input type="hidden" name="news.publisher" value="-1"/>
-    <label for="title">标题</label>
-    <input type="text" required id="title" name="news.title" placeholder="请输入题目...">
-    <br>
-    <textarea required style="margin-top:50px;" name="news.content" placeholder="请输入内容..."></textarea>
-    <br>
-    <%
-    } else {
-    %>
-    <input type="hidden" name="news.id" value="<%=n.getId()%>"/>
-    <input type="hidden" name="news.publisher" value="<%=n.getPublisher()%>"/>
-    <label for="title">标题</label>
-    <input type="text" required id="title" value="<%=n.getTitle()%>" name="news.title" placeholder="请输入题目...">
-    <br>
-    <textarea required style="margin-top:50px;" name="news.content" placeholder="请输入内容..."><%=n.getContent()%></textarea>
-    <br>
-    <%
-        }
-
-        if (type_list != null){
-            %>
-    <label for="type">新闻类型</label>
-    <select id="type" name="news.type" required>
+<table>
+    <tr>
+        <th>文章ID</th>
+        <th>收藏时间</th>
+        <th>查看文章</th>
+        <th>取消收藏</th>
+    </tr>
         <%
-        for (int i = 0; i < type_list.size(); i++) {
-            String is_select = "";
-            if(n!= null && type_list.get(i).getId() == n.getType()) {
-                is_select = "selected";
-            }
-    %>
-    <option value="<%=type_list.get(i).getId()%>" <%=is_select%>> <%=type_list.get(i).getType()%></option>
+        ValueStack vs = (ValueStack) request.getAttribute("struts.valueStack");  // 获取上一个页面转发的值
+        List<Object> collect_list = (List<Object>) vs.findValue("collect_list");
+        if(collect_list != null) {
+            for(Object o :collect_list){
+                Collect c = (Collect)o;
+            %>
+    <tr>
+        <td><%=c.getNews_id()%></td>
+        <td><%=c.getDatetime()%></td>
+        <td><li><a target="_blank" href="/show_single_news?news.id=<%=c.getNews_id()%>">点击查看</a></li></td>
+        <td><li><a href="/delete_collect_news_action?id=<%=c.getNews_id()%>&title=<%=c.getNews_id()%>">取消收藏</a></li></td>
+    </tr>
     <%
+            }
         }
-        }
-    %>
-    </select>
-    <s:submit/>
-</s:form>
+        %>
+</table>
 </body>
 </html>

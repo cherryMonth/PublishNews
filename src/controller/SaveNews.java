@@ -6,6 +6,9 @@ import dao.NewsDao;
 import model.News;
 import model.User;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class SaveNews extends ActionSupport {
 
     private News news;
@@ -22,6 +25,9 @@ public class SaveNews extends ActionSupport {
         User user = (User)ActionContext.getContext().getSession().get("user");
         if (user == null) {
             return LOGIN;
+        }
+        if(news.getId() != -1){
+            news.setDatetime(new Date());
         }
         news.setPublisher(user.getId());
         NewsDao dao = new NewsDao();

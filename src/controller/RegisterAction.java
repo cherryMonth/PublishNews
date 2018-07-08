@@ -31,8 +31,8 @@ public class RegisterAction extends ActionSupport {
     public String execute() {
 
         UserDao dao = new UserDao();
-
-        if (dao.filter("username", "='" + user.getUsername() + "'").first() != null) {
+        User temp = (User)dao.filter("username", "='" + user.getUsername() + "'").first();
+        if ( temp != null && temp.getId() != user.getId()) {
             addActionError(getText("user_already_existed"));
             return INPUT;
         }
