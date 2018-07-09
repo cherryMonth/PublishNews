@@ -48,8 +48,8 @@
 <s:actionerror/>
 <s:actionmessage/>
 <s:form action="search">
-    <s:label value="请输入查询条件" for="sql" />
-        <s:textfield name="sql"/>
+    <s:label value="请输入查询条件" for="sql"/>
+        <s:textfield name="sql" required="true"/>
     <s:submit/>
 </s:form>
 <table>
