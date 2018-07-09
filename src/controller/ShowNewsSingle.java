@@ -34,24 +34,26 @@ public class ShowNewsSingle extends ActionSupport {
         this.news = news;
     }
 
-    public String execute(){
+    public String execute() {
 
         NewsDao dao = new NewsDao();
-        if(news == null) {
+        if (news == null) {
             return ERROR;
-        }
-        else
-            news = (News)dao.filter("id", String.format("=%d", news.getId())).first();
+        } else {
+            news = (News) dao.filter("id", String.format("=%d", news.getId())).first();
+            if (news == null)
+                return ERROR;
             news.setViews(news.getViews() + 1);
             dao.add(news);
             Browser browser = new Browser();
-            User user = (User)ActionContext.getContext().getSession().get("user");
+            User user = (User) ActionContext.getContext().getSession().get("user");
             browser.setBrowser(user.getId());
             BrowserDao dao1 = new BrowserDao();
             browser.setInfo("您在" + new Date().toString() + "访问了 <a target='_blank' href='/show_single_news?news.id=" +
-                            news.getId() + "'>" + news.getTitle() + "</a>");
+                    news.getId() + "'>" + news.getTitle() + "</a>");
             dao1.add(browser);
             comment_list = new CommentDao().filter("news", String.format("=%d", news.getId())).getResult();
-        return SUCCESS;
+            return SUCCESS;
+        }
     }
 }
