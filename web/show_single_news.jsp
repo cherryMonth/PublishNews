@@ -80,6 +80,8 @@
 <div id="addcomment" style="margin-top:20px;">
     <hr style="width: 100%;">
     <form id="form" action="addComment">
+        <input type="hidden" name="news.id" value="<%=news.getId()%>" />
+        <input type="hidden" name="news.title" value="<%=news.getTitle()%>" />
         <input type="hidden" name="comment.commentator" value="<%=user.getId()%>"/>
         <input type="hidden" name="comment.news" value="<%=news.getId()%>"/>
         <div class="form-group">
@@ -116,7 +118,7 @@
             if (user.getId() == c.getCommentator()) {
         %>
         <td>
-            <li><a href="/deleteComment?news.id=<%=news.getId()%>&commentator=<%=user.getId()%>">删除</a></li>
+            <li><a href="/deleteComment?news.id=<%=news.getId()%>&news.title=<%=news.getTitle()%>&commentator=<%=user.getId()%>">删除</a></li>
         </td>
         <%} %>
     </tr>

@@ -38,7 +38,7 @@ public class DeleteComment extends ActionSupport {
         browser.setBrowser(user.getId());
         BrowserDao dao1 = new BrowserDao();
         browser.setInfo("您的" + new Date().toString() + "评论被删除了 <a target='_blank' href='/show_single_news?news.id=" +
-                c.getNews() + "'>" + c.getNews() + "</a>");
+                c.getNews() + "'>" + news.getTitle() + "</a>");
         dao1.add(browser);
         return SUCCESS;
     }

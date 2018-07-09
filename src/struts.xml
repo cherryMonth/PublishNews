@@ -122,14 +122,16 @@
             <result name="login">/login.jsp</result>
         </action>
         <action name="addComment" class="controller.AddComment">
-            <result name="success" type="chain">
+            <result name="success" type="redirectAction">
                 <param name="actionName">show_single_news</param>
+                <param name="news.id">${news.id}</param>
             </result>
             <result name="login">/login.jsp</result>
         </action>
         <action name="deleteComment" class="controller.DeleteComment">
-            <result name="success" type="chain">
+            <result name="success" type="redirectAction">
                 <param name="actionName">show_single_news</param>
+                <param name="news.id">${news.id}</param>
             </result>
             <result name="input" type="chain">
                 <param name="actionName">show_single_news</param>
