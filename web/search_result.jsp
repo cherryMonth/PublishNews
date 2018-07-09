@@ -99,10 +99,10 @@
         for (var i = 1; i <= num; i++) {
             var tr = document.getElementById(i + "");
             if (i < startRow || i > endRow) {
-                tr.setAttribute("style", "display:none")
+                tr.setAttribute("style", "display:none");
             }
             else {
-                tr.setAttribute("style", "")
+                tr.setAttribute("style", "");
             }
 
         }

@@ -4,7 +4,6 @@ import controller.UserLoginAction;
 import controller.RegisterAction;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
-import model.User;
 
 import java.util.Map;
 

@@ -45,5 +45,4 @@ public class DeleteCollect extends ActionSupport {
         dao1.add(browser);
         return SUCCESS;
     }
-
 }

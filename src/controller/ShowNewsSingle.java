@@ -8,7 +8,6 @@ import dao.NewsDao;
 import model.Browser;
 import dao.BrowserDao;
 import model.User;
-
 import java.util.Date;
 import java.util.List;
 
