@@ -7,6 +7,15 @@ public class Comment {
     private  int commentator;
     private int news;
     private Date datetime;
+    private String info;
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
 
     public Date getDatetime() {
         return datetime;

@@ -120,6 +120,24 @@
             <result name="success">/show_collect_news.jsp</result>
             <result name="login">/login.jsp</result>
         </action>
+        <action name="addComment" class="controller.AddComment">
+            <result name="success" type="chain">
+                <param name="actionName">show_single_news</param>
+            </result>
+            <result name="login">/login.jsp</result>
+        </action>
+        <action name="deleteComment" class="controller.DeleteComment">
+            <result name="success" type="chain">
+                <param name="actionName">show_single_news</param>
+            </result>
+            <result name="input" type="chain">
+                <param name="actionName">show_single_news</param>
+            </result>
+            <result name="login">/login.jsp</result>
+        </action>
+        <action name="search" class="controller.SearchNews">
+            <result name="success">/search_result.jsp</result>
+        </action>
     </package>
     <!--<include file="interceptor/interceptor.xml"></include>-->
 </struts>

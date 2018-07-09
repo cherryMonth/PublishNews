@@ -120,7 +120,6 @@ public class DataBaseConnect {
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
             for (int i = 0; i < list.size(); i++) {
-                System.out.println( list.get(i));
                 pstmt.setObject(i + 1, list.get(i));
             }
             pstmt.setInt(list.size() + 1, id);

@@ -47,6 +47,11 @@
     <a href="/login.jsp">返回登录页面</a>
 </s:else>
 <br>
+<s:form action="search">
+    <s:label value="请输入查询条件" for="sql" />
+        <s:textfield name="sql"/>
+    <s:submit/>
+</s:form>
 <table>
     <tr>
         <th>主题</th>

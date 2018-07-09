@@ -1,6 +1,3 @@
-<%@ page import="com.opensymphony.xwork2.util.ValueStack" %>
-<%@ page import="model.User" %>
-<%@ page import="com.opensymphony.xwork2.ActionContext" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%--
   Created by IntelliJ IDEA.
