@@ -38,8 +38,6 @@ public abstract class Dao {
          *  rows 为显示的行数
          *
          * */
-        if(this.table.toUpperCase().equals("NEWS") && column.toUpperCase().equals("TYPE"))
-            column = "NEWS_TYPE";
         return db.paginate(this.table, start, rows, column, sql, this.class_type.getName());
     }
 
@@ -64,8 +62,6 @@ public abstract class Dao {
                 e.printStackTrace();
             }
         }
-        if(this.table.toUpperCase().equals("NEWS") && column.toUpperCase().equals("TYPE"))
-            column = "NEWS_TYPE";
         String sql = String.format("select * from %s where %s %s", this.table, column, filter);
         return new Result(db.query_filter(sql, this.class_type.getName()), this.class_type, sql);
     }

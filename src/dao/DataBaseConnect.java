@@ -65,8 +65,6 @@ public class DataBaseConnect {
             if (getFieldValueByName(field.getName(), object) == null)
                 continue;
             String name = field.getName().toUpperCase();
-            if(name.equals("TYPE") && table.equals("news"))
-                name = "NEWS_TYPE";
             sql.append(String.format("\"%s\",", name));
             values.append("?,");
             list.add(getFieldValueByName(field.getName(), object));
@@ -109,8 +107,6 @@ public class DataBaseConnect {
             if (getFieldValueByName(field.getName(), object) == null)
                 continue;
             String name = field.getName().toUpperCase();
-            if(name.equals("TYPE") && table.equals("news"))
-                name = "NEWS_TYPE";
             sql.append(String.format(" \"%s\" = ?,", name));
             list.add(getFieldValueByName(field.getName(), object));
         }
@@ -205,8 +201,6 @@ public class DataBaseConnect {
                         String setter = "set" + firstLetter + field.getName().substring(1);
                         Method method = object.getClass().getDeclaredMethod(setter, field.getType());
                         String field_name = field.getName();
-                        if(sql.contains("news") && field_name.toUpperCase().equals("TYPE"))
-                            field_name = "NEWS_TYPE";
                         method.invoke(object, rs.getObject(field_name));
                     }
                     list.add(object);

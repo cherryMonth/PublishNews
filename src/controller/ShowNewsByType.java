@@ -29,7 +29,7 @@ public class ShowNewsByType extends ActionSupport {
         this.number = number;
     }
 
-    private int number = 1;
+    private int number = 0;
 
     public Type getType() {
         return type;
@@ -83,6 +83,10 @@ public class ShowNewsByType extends ActionSupport {
         NewsDao dao1 = new NewsDao();
         if (getType() == null) {
             this.type = (Type) dao.filter("id", ">-1").first();
+            if(this.type == null){
+                addActionError("当前没有新闻!");
+                return ERROR;
+            }
         }
 
         type_list = dao.filter("id", ">-1").all();
@@ -90,17 +94,19 @@ public class ShowNewsByType extends ActionSupport {
         CollectDao dao2 = new CollectDao();
         User user = (User)ActionContext.getContext().getSession().get("user");
         List <Object > temp_list = dao2.filter("user_id", String.format("=%d", user.getId())).getResult();
-        for(Object o:news_list){
-            News news = (News)o;
-            boolean is_collect = false;
-            for(Object o1:temp_list){
-                Collect c = (Collect)o1;
-                if(news.getId() == c.getNews_id()) {
-                    is_collect = true;
-                    break;
+        if(news_list != null) {
+            for (Object o : news_list) {
+                News news = (News) o;
+                boolean is_collect = false;
+                for (Object o1 : temp_list) {
+                    Collect c = (Collect) o1;
+                    if (news.getId() == c.getNews_id()) {
+                        is_collect = true;
+                        break;
+                    }
                 }
+                collect_list.add(is_collect);
             }
-            collect_list.add(is_collect);
         }
         int total = dao1.filter("type", String.format("=%d", type.getId())).getResult().size();
         if (total % 10 == 0)

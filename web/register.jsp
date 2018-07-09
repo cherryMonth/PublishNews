@@ -48,14 +48,19 @@
 </s:else>
 <s:form action="register">
     <s:textfield name="user.username" key="user" value="%{#session.user.username}"/>
-    <s:hidden name="user.id" value="%{#session.user.id}" />
-    <s:select list="#{'m':'男','w':'女'}"  name="user.sex" key="sex" listKey="key" listValue="value" value="%{#session.user.sex}" />
+    <s:hidden name="user.id" value="%{#session.user.id}"/>
+    <s:select list="#{'m':'男','w':'女'}" name="user.sex" key="sex" listKey="key" listValue="value"
+              value="%{#session.user.sex}"/>
     <s:if test="#session.user == null">
-        <s:select list="#{'editor':'编辑','user':'用户','administrator':'管理员'}" listKey="key" value="%{#session.user.user_identity}" listValue="value"  name="user.user_identity" key="user_identity" />
+        <s:select list="#{'editor':'编辑','user':'用户','administrator':'管理员'}" listKey="key"
+                  value="%{#session.user.user_identity}" listValue="value" name="user.user_identity"
+                  key="user_identity"/>
     </s:if>
-    <s:textfield key="user_identity" value="%{#session.user.user_identity}" readonly="true"/>
-    <s:password name="user.password" key="pass" />
-    <s:password name="repass" key="repassword" />
+    <s:else>
+        <s:textfield key="user_identity" value="%{#session.user.user_identity}" readonly="true"/>
+    </s:else>
+    <s:password name="user.password" key="pass"/>
+    <s:password name="repass" key="repassword"/>
     <s:submit/>
 </s:form>
 </body>

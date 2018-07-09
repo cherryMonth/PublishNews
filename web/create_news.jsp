@@ -11,13 +11,13 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="static/css/editormd.css"/>
     <title>创建新闻</title>
 </head>
 <body>
-<s:actionerror/>
-<s:actionmessage/>
 <s:if test="#session.user != null">
     <s:if test='#session.user.user_identity.equals("administrator")'>
         <a href="/showNewsType.action">显示新闻分类</a>
@@ -50,6 +50,10 @@
 <s:else>
     <a href="/login.jsp">返回登录页面</a>
 </s:else>
+<s:actionerror/>
+<s:actionmessage/>
+<script src="static/js/jquery.min.js"></script>
+<script src="static/editormd.js"></script>
 <s:form action="save_news_action">
     <%
         ValueStack vs = (ValueStack) request.getAttribute("struts.valueStack");  // 获取上一个页面转发的值
@@ -60,9 +64,33 @@
     <input type="hidden" name="news.id" value="-1"/>
     <input type="hidden" name="news.publisher" value="-1"/>
     <label for="title">标题</label>
-    <input type="text" required id="title" name="news.title" placeholder="请输入题目...">
+    <input type="text" required id="title" style="width: 30%" name="news.title" placeholder="请输入题目...">
+    <%
+        if (type_list != null) {
+    %>
+    <label for="type" style="margin-left: 50px">新闻类型</label>
+    <select id="type" name="news.type" required>
+        <%
+            for (int i = 0; i < type_list.size(); i++) {
+                String is_select = "";
+                if (n != null && type_list.get(i).getId() == n.getType()) {
+                    is_select = "selected";
+                }
+        %>
+        <option value="<%=type_list.get(i).getId()%>" <%=is_select%>><%=type_list.get(i).getType()%>
+        </option>
+        <%
+                }
+            }
+        %>
+    </select>
+    <input type="submit" style="margin-left:50%"/>
     <br>
-    <textarea required style="margin-top:50px;" name="news.content" placeholder="请输入内容..."></textarea>
+    <div id="layout" style="margin-top: 50px;">
+        <div id="editormd">
+            <textarea style="display:none;" name="news.content"></textarea>
+        </div>
+    </div>
     <br>
     <%
     } else {
@@ -71,30 +99,68 @@
     <input type="hidden" name="news.publisher" value="<%=n.getPublisher()%>"/>
     <label for="title">标题</label>
     <input type="text" required id="title" value="<%=n.getTitle()%>" name="news.title" placeholder="请输入题目...">
-    <br>
-    <textarea required style="margin-top:50px;" name="news.content" placeholder="请输入内容..."><%=n.getContent()%></textarea>
-    <br>
     <%
-        }
-
-        if (type_list != null){
-            %>
-    <label for="type">新闻类型</label>
+        if (type_list != null) {
+    %>
+    <label for="type" style="margin-left: 50px">新闻类型</label>
     <select id="type" name="news.type" required>
         <%
-        for (int i = 0; i < type_list.size(); i++) {
-            String is_select = "";
-            if(n!= null && type_list.get(i).getId() == n.getType()) {
-                is_select = "selected";
+            for (int i = 0; i < type_list.size(); i++) {
+                String is_select = "";
+                if (n != null && type_list.get(i).getId() == n.getType()) {
+                    is_select = "selected";
+                }
+        %>
+        <option value="<%=type_list.get(i).getId()%>" <%=is_select%>><%=type_list.get(i).getType()%>
+        </option>
+        <%
+                }
             }
-    %>
-    <option value="<%=type_list.get(i).getId()%>" <%=is_select%>> <%=type_list.get(i).getType()%></option>
+        %>
+    </select>
+    <input type="submit" style="margin-left:50%"/>
+    <div style="margin-top: 50px;">
+        <div id="editormd">
+            <textarea style="display:none;" name="news.content"><%=n.getContent()%></textarea>
+        </div>
+    </div>
+    <br>
     <%
         }
-        }
     %>
-    </select>
-    <s:submit/>
 </s:form>
+<script type="text/javascript">
+    var testEditor;
+
+    $(function () {
+
+        editormd.emoji = {
+            path: "http://www.emoji-cheat-sheet.com/graphics/emojis/",
+            ext: ".png"
+        };
+
+        // Twitter Emoji (Twemoji)  graphics files url path
+        editormd.twemoji = {
+            path: "http://twemoji.maxcdn.com/72x72/",
+            ext: ".png"
+        };
+
+        testEditor = editormd("editormd", {
+
+            width: "70%",
+            height: 450,
+
+            toc: true,
+
+            emoji: true,       // Support Github emoji, Twitter Emoji(Twemoji), fontAwesome, Editor.md logo emojis.
+
+            taskList: true,
+            saveHTMLToTextarea: true,
+            path: 'static/lib/',
+            onload: function () {
+            }
+        });
+    });
+</script>
 </body>
 </html>

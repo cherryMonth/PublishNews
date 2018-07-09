@@ -12,8 +12,6 @@
     <title>显示新闻</title>
 </head>
 <body>
-<s:actionerror/>
-<s:actionmessage/>
 <s:if test="#session.user != null">
     <s:if test='#session.user.user_identity.equals("administrator")'>
         <a href="/showNewsType.action">显示新闻分类</a>
@@ -47,6 +45,8 @@
     <a href="/login.jsp">返回登录页面</a>
 </s:else>
 <br>
+<s:actionerror/>
+<s:actionmessage/>
 <s:form action="search">
     <s:label value="请输入查询条件" for="sql" />
         <s:textfield name="sql"/>
